@@ -61,13 +61,33 @@ const questions = [
             { text: "항상 교차 검증을 통해 팩트 체크를 진행한 후 업무에 반영한다.", score: 3 },
             { text: "환각을 최소화하기 위한 프롬프트 기법을 사용하며, 결과물을 비판적으로 분석한다.", score: 4 }
         ]
+    },
+    {
+        category: "일상생활",
+        question: "주말에 배달 음식을 시켜 먹으려고 할 때, 나의 메뉴 선택 방식은?",
+        options: [
+            { text: "익숙한 단골집에서 늘 먹던 메뉴를 시킨다.", score: 1 },
+            { text: "배달 앱의 평점과 리뷰를 꼼꼼히 읽어보고 고른다.", score: 2 },
+            { text: "SNS나 블로그에서 요즘 유행하는 맛집을 검색해서 찾아본다.", score: 3 },
+            { text: "AI 챗봇에게 내 취향과 현재 기분을 말하고 메뉴를 추천받는다.", score: 4 }
+        ]
+    },
+    {
+        category: "일상생활",
+        question: "새로운 가전제품이나 전자기기를 구매했을 때, 나는?",
+        options: [
+            { text: "설명서는 읽지 않고 일단 버튼부터 눌러본다.", score: 1 },
+            { text: "기본적인 사용법만 설명서에서 찾아보고 사용한다.", score: 2 },
+            { text: "유튜브 등에서 사용 꿀팁 영상을 찾아보고 기능들을 익힌다.", score: 3 },
+            { text: "기기의 모든 스마트 기능(AI 연동, 루틴 설정 등)을 100% 세팅해둔다.", score: 4 }
+        ]
     }
 ];
 
 const results = [
     {
-        minScore: 6,
-        maxScore: 10,
+        minScore: 8,
+        maxScore: 14,
         level: 1,
         title: "AI 탐험가 (Beginner)",
         desc: "AI 기술의 가능성을 이제 막 인지하기 시작하셨군요! 아직은 기존의 업무 방식이 익숙하시겠지만, AI는 생각보다 우리의 수고를 크게 덜어줄 수 있습니다.",
@@ -78,8 +98,8 @@ const results = [
         ]
     },
     {
-        minScore: 11,
-        maxScore: 16,
+        minScore: 15,
+        maxScore: 22,
         level: 2,
         title: "AI 실무자 (Intermediate)",
         desc: "AI를 업무 생산성 향상 도구로 적절히 활용하고 계십니다! 검색이나 단순 요약 기능을 넘어서 조금 더 고도화된 작업을 AI와 함께 해볼 차례입니다.",
@@ -90,11 +110,11 @@ const results = [
         ]
     },
     {
-        minScore: 17,
-        maxScore: 21,
+        minScore: 23,
+        maxScore: 28,
         level: 3,
         title: "AI 협업가 (Advanced)",
-        desc: "훌륭합니다! DB 글로벌칩의 업무 특성을 잘 이해하고 전문적인 직무 영역(분석, 최적화, 기획)에 AI를 능숙하게 결합하고 계시네요.",
+        desc: "훌륭합니다! DB 글로벌칩의 업무 특성을 잘 이해하고 전문적인 직무 영역(분석, 최적화, 기획)에 AI 전반을 능숙하게 결합하고 계시네요.",
         tips: [
             "본인만의 성공적인 프롬프트(명령어) 템플릿을 만들어 팀 내에 공유해 보세요.",
             "반도체 스펙 분석이나 데이터 전처리 자동화 등 더 복잡한 파이프라인에 AI를 적용해 보세요.",
@@ -102,8 +122,8 @@ const results = [
         ]
     },
     {
-        minScore: 22,
-        maxScore: 24,
+        minScore: 29,
+        maxScore: 32,
         level: 4,
         title: "AI 개척자 (Expert)",
         desc: "상위 1%의 AI 활용 능력을 갖추셨습니다! 스스로 업무 혁신을 이끌 뿐만 아니라 사내 AI 문화를 선도할 수 있는 전문가입니다.",
@@ -119,11 +139,18 @@ let currentQuestionIndex = 0;
 let totalScore = 0;
 let currentEmpId = '';
 let currentEmpName = '';
+let userSelections = [];
+let shuffledQuestions = [];
+
+// 주관식 답변용 변수
+let subjCurrentTool = '';
+let subjWantTool = '';
 
 // DOM Elements
 const introView = document.getElementById('intro-view');
 const authView = document.getElementById('auth-view');
 const quizView = document.getElementById('quiz-view');
+const subjectiveView = document.getElementById('subjective-view');
 const loadingView = document.getElementById('loading-view');
 const resultView = document.getElementById('result-view');
 
@@ -137,6 +164,11 @@ const questionNumber = document.getElementById('question-number');
 const questionText = document.getElementById('question-text');
 const optionsContainer = document.getElementById('options-container');
 const progressBar = document.getElementById('progress-bar');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+
+const subjectiveSubmitBtn = document.getElementById('subjective-submit-btn');
+const subjectivePrevBtn = document.getElementById('subjective-prev-btn');
 
 const resultTitle = document.getElementById('result-title');
 const resultScoreVal = document.getElementById('result-score-val');
@@ -147,7 +179,11 @@ const restartBtn = document.getElementById('restart-btn');
 // Event Listeners
 startBtn.addEventListener('click', showAuth);
 authSubmitBtn.addEventListener('click', handleAuthSubmit);
+subjectiveSubmitBtn.addEventListener('click', handleSubjectiveSubmit);
+subjectivePrevBtn.addEventListener('click', handleSubjectivePrevClick);
 restartBtn.addEventListener('click', resetQuiz);
+prevBtn.addEventListener('click', handlePrevClick);
+nextBtn.addEventListener('click', handleNextClick);
 
 function switchView(viewElement) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -192,43 +228,136 @@ function handleAuthSubmit() {
 
 function startQuiz() {
     currentQuestionIndex = 0;
-    totalScore = 0;
+    userSelections = new Array(questions.length).fill(null);
+    
+    // 퀴즈 시작 시 1회만 각 문항의 보기 순서를 섞음
+    shuffledQuestions = questions.map(q => {
+        return {
+            ...q,
+            options: [...q.options].sort(() => Math.random() - 0.5)
+        };
+    });
+
     switchView(quizView);
     renderQuestion();
 }
 
 function renderQuestion() {
-    const q = questions[currentQuestionIndex];
+    const q = shuffledQuestions[currentQuestionIndex];
     questionNumber.innerText = `Q${currentQuestionIndex + 1}.`;
     questionText.innerText = q.question;
 
     // Update Progress
-    const progress = ((currentQuestionIndex) / questions.length) * 100;
+    const progress = ((currentQuestionIndex) / shuffledQuestions.length) * 100;
     progressBar.style.width = `${progress}%`;
 
     // Render Options
     optionsContainer.innerHTML = '';
+    
     q.options.forEach(option => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
+        if (userSelections[currentQuestionIndex] === option.score) {
+            btn.classList.add('selected');
+        }
         btn.innerText = option.text;
-        btn.onclick = () => handleOptionClick(option.score);
+        btn.onclick = () => selectOption(option.score, btn);
         optionsContainer.appendChild(btn);
     });
+
+    // Update Nav Buttons
+    prevBtn.style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
+    
+    if (userSelections[currentQuestionIndex] === null) {
+        nextBtn.disabled = true;
+    } else {
+        nextBtn.disabled = false;
+    }
 }
 
-function handleOptionClick(score) {
-    totalScore += score;
-    currentQuestionIndex++;
+function selectOption(score, selectedBtn) {
+    userSelections[currentQuestionIndex] = score;
+    
+    // Remove 'selected' from all buttons
+    const buttons = optionsContainer.querySelectorAll('.option-btn');
+    buttons.forEach(btn => btn.classList.remove('selected'));
+    
+    // Add 'selected' to clicked button
+    selectedBtn.classList.add('selected');
 
-    if (currentQuestionIndex < questions.length) {
+    // Enable Next button
+    nextBtn.disabled = false;
+}
+
+function handleNextClick() {
+    if (currentQuestionIndex < shuffledQuestions.length - 1) {
+        currentQuestionIndex++;
         renderQuestion();
     } else {
+        // 모든 문항의 점수 합산
+        totalScore = userSelections.reduce((sum, score) => sum + score, 0);
         progressBar.style.width = `100%`;
         setTimeout(() => {
-            showLoading();
+            switchView(subjectiveView);
         }, 300);
     }
+}
+
+function handlePrevClick() {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion();
+    }
+}
+
+function handleSubjectivePrevClick() {
+    // 마지막 문항으로 되돌아가기
+    currentQuestionIndex = shuffledQuestions.length - 1;
+    switchView(quizView);
+    renderQuestion();
+}
+
+function handleSubjectiveSubmit() {
+    const currentInputs = document.querySelectorAll('.current-tool-input');
+    const wantInputs = document.querySelectorAll('.want-tool-input');
+
+    const currentValues = Array.from(currentInputs).map(i => i.value.trim()).filter(v => v !== '');
+    const wantValues = Array.from(wantInputs).map(i => i.value.trim()).filter(v => v !== '');
+
+    if (currentValues.length === 0 || wantValues.length === 0) {
+        alert("항목별로 최소 하나 이상의 AI Tool을 작성해 주세요.");
+        return;
+    }
+
+    // 배열을 ' | ' 기호로 구분하여 취합 시 파싱이 쉽도록 처리
+    subjCurrentTool = currentValues.join(' | ');
+    subjWantTool = wantValues.join(' | ');
+
+    showLoading();
+}
+
+function addInputRow(containerId, inputClass) {
+    const container = document.getElementById(containerId);
+    
+    const row = document.createElement('div');
+    row.className = 'dynamic-input-row';
+    
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = `dynamic-input ${inputClass}`;
+    input.placeholder = '추가 입력';
+    
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'remove-input-btn';
+    removeBtn.innerText = '−'; // minus sign
+    removeBtn.onclick = () => {
+        container.removeChild(row);
+    };
+    
+    row.appendChild(input);
+    row.appendChild(removeBtn);
+    container.appendChild(row);
 }
 
 function showLoading() {
@@ -243,12 +372,13 @@ function showLoading() {
         }
     }
 
-    // GAS로 데이터 전송 (no-cors 모드 사용)
     const payload = {
         empId: currentEmpId,
         empName: currentEmpName,
         score: totalScore,
-        levelTitle: finalResult.title
+        levelTitle: finalResult.title,
+        currentTool: subjCurrentTool,
+        wantTool: subjWantTool
     };
 
     // 1.5초 기본 로딩 시간 보장 및 fetch 비동기 처리

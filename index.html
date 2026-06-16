@@ -63,6 +63,39 @@
                 <div id="options-container" class="options-container">
                     <!-- 옵션 버튼들이 여기에 동적으로 생성됩니다. -->
                 </div>
+                <div class="quiz-nav-buttons">
+                    <button id="prev-btn" class="secondary-btn">이전</button>
+                    <button id="next-btn" class="primary-btn" disabled>다음</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 주관식 화면 -->
+        <section id="subjective-view" class="view auth-layout">
+            <div class="auth-card">
+                <img src="logo.png" alt="DB Global Chip" class="logo-small-img">
+                <div class="input-group" style="margin-top: 20px;">
+                    <label class="subjective-label">현재 쓰고 있는 AI Tool</label>
+                    <div id="current-tool-container" class="dynamic-input-container">
+                        <div class="dynamic-input-row">
+                            <input type="text" class="dynamic-input current-tool-input" placeholder="예: ChatGPT">
+                            <button type="button" class="add-input-btn" onclick="addInputRow('current-tool-container', 'current-tool-input')">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label class="subjective-label">경험해보고 싶은 AI Tool</label>
+                    <div id="want-tool-container" class="dynamic-input-container">
+                        <div class="dynamic-input-row">
+                            <input type="text" class="dynamic-input want-tool-input" placeholder="예: Midjourney">
+                            <button type="button" class="add-input-btn" onclick="addInputRow('want-tool-container', 'want-tool-input')">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="quiz-nav-buttons">
+                    <button id="subjective-prev-btn" class="secondary-btn">이전</button>
+                    <button id="subjective-submit-btn" class="primary-btn">진단 결과 확인하기</button>
+                </div>
             </div>
         </section>
 

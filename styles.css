@@ -278,7 +278,8 @@ button {
     font-weight: 600;
     color: var(--text-primary);
 }
-.input-group input {
+.input-group input[type="text"],
+.input-group textarea {
     width: 100%;
     padding: 16px;
     border: 1px solid var(--border-color);
@@ -286,11 +287,66 @@ button {
     font-size: 1rem;
     transition: all 0.2s;
     font-family: inherit;
+    resize: vertical;
 }
-.input-group input:focus {
+.input-group input[type="text"]:focus,
+.input-group textarea:focus {
     outline: none;
     border-color: var(--db-green);
     box-shadow: 0 0 0 3px rgba(0, 133, 74, 0.1);
+}
+
+.dynamic-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 5px;
+}
+.dynamic-input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.dynamic-input-row input {
+    flex: 1;
+    margin: 0;
+}
+.add-input-btn, .remove-input-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 500;
+    padding: 0 !important;
+    flex-shrink: 0;
+}
+.add-input-btn {
+    background-color: var(--db-green-light);
+    color: white;
+}
+.add-input-btn:hover {
+    background-color: var(--db-green);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.remove-input-btn {
+    background-color: #f8f9fa;
+    color: var(--db-red);
+    border: 1px solid var(--border-color);
+}
+.remove-input-btn:hover {
+    background-color: #fee2e2;
+    border-color: var(--db-red);
+    transform: translateY(-2px);
+}
+.subjective-label {
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 12px !important;
+    color: var(--text-primary);
 }
 #auth-submit-btn {
     width: 100%;
@@ -369,6 +425,38 @@ button {
     border-color: var(--db-green);
     transform: translateY(-2px);
     box-shadow: 0 8px 15px rgba(0, 133, 74, 0.1);
+}
+.option-btn.selected {
+    background-color: #e8f5e9;
+    border-color: var(--db-green);
+    box-shadow: 0 4px 12px rgba(0, 133, 74, 0.15);
+}
+
+.quiz-nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 20px;
+}
+.quiz-nav-buttons button {
+    flex: 1;
+    padding: 16px 24px;
+}
+.quiz-nav-buttons #next-btn:disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    box-shadow: none;
+    border: none;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* 주관식 화면 버튼 너비 비대칭 적용 */
+#subjective-view .quiz-nav-buttons #subjective-prev-btn {
+    flex: 0.3;
+}
+#subjective-view .quiz-nav-buttons #subjective-submit-btn {
+    flex: 0.7;
 }
 
 /* Loading Content */
