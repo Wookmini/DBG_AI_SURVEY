@@ -1,5 +1,5 @@
 // TODO: 배포하신 GAS Web App URL을 아래에 붙여넣어 주세요.
-const GAS_URL = "https://script.google.com/a/macros/dbglobalchip.com/s/AKfycbxOWU2vWRLjO2_WnFa43gLsLT4uBW_qfknRPBw8OGK6PECrdS8lCBqmGwfnca4D1B6V/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbzMLdRuc7W9AUfXlMD9UwpR40vcVYV7mFyIONh60phpsWYER0caVK4gnJhPoAS25pS9bg/exec";
 
 const questions = [
     {
@@ -229,7 +229,7 @@ function handleAuthSubmit() {
 function startQuiz() {
     currentQuestionIndex = 0;
     userSelections = new Array(questions.length).fill(null);
-    
+
     // 퀴즈 시작 시 1회만 각 문항의 보기 순서를 섞음
     shuffledQuestions = questions.map(q => {
         return {
@@ -253,7 +253,7 @@ function renderQuestion() {
 
     // Render Options
     optionsContainer.innerHTML = '';
-    
+
     q.options.forEach(option => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
@@ -267,7 +267,7 @@ function renderQuestion() {
 
     // Update Nav Buttons
     prevBtn.style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
-    
+
     if (userSelections[currentQuestionIndex] === null) {
         nextBtn.disabled = true;
     } else {
@@ -277,11 +277,11 @@ function renderQuestion() {
 
 function selectOption(score, selectedBtn) {
     userSelections[currentQuestionIndex] = score;
-    
+
     // Remove 'selected' from all buttons
     const buttons = optionsContainer.querySelectorAll('.option-btn');
     buttons.forEach(btn => btn.classList.remove('selected'));
-    
+
     // Add 'selected' to clicked button
     selectedBtn.classList.add('selected');
 
@@ -338,15 +338,15 @@ function handleSubjectiveSubmit() {
 
 function addInputRow(containerId, inputClass) {
     const container = document.getElementById(containerId);
-    
+
     const row = document.createElement('div');
     row.className = 'dynamic-input-row';
-    
+
     const input = document.createElement('input');
     input.type = 'text';
     input.className = `dynamic-input ${inputClass}`;
     input.placeholder = '추가 입력';
-    
+
     const removeBtn = document.createElement('button');
     removeBtn.type = 'button';
     removeBtn.className = 'remove-input-btn';
@@ -354,7 +354,7 @@ function addInputRow(containerId, inputClass) {
     removeBtn.onclick = () => {
         container.removeChild(row);
     };
-    
+
     row.appendChild(input);
     row.appendChild(removeBtn);
     container.appendChild(row);
