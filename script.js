@@ -1,5 +1,5 @@
 // TODO: 배포하신 GAS Web App URL을 아래에 붙여넣어 주세요.
-const GAS_URL = "https://script.google.com/macros/s/AKfycbzMLdRuc7W9AUfXlMD9UwpR40vcVYV7mFyIONh60phpsWYER0caVK4gnJhPoAS25pS9bg/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxqgBUoXg1eFxC9pV5pCRFPKY6ZIAx-YgTjGpJVGYxU8efjMlsCrF7zmhURhCY7Uqye2A/exec";
 
 const questions = [
     {
@@ -209,10 +209,10 @@ async function handleAuthSubmit() {
     // 서버로 사번 중복 확인 요청
     authError.style.color = '#1e88e5'; // 로딩 안내 메시지 (파란색)
     authError.innerText = "참여 이력을 확인 중입니다...";
-    
+
     // 버튼 비활성화 방어
     const authSubmitBtn = document.querySelector('#auth-view .btn');
-    if(authSubmitBtn) authSubmitBtn.disabled = true;
+    if (authSubmitBtn) authSubmitBtn.disabled = true;
 
     try {
         if (GAS_URL && GAS_URL !== "YOUR_GAS_URL_HERE") {
@@ -223,7 +223,7 @@ async function handleAuthSubmit() {
             if (resultData.exists) {
                 authError.style.color = '#d32f2f'; // 에러 색상 (빨간색) 복구
                 authError.innerText = "해당 사번은 이미 진단에 참여하였습니다.";
-                if(authSubmitBtn) authSubmitBtn.disabled = false;
+                if (authSubmitBtn) authSubmitBtn.disabled = false;
                 return;
             }
         }
@@ -243,7 +243,7 @@ async function handleAuthSubmit() {
     // 검증 성공 후 진행
     authError.style.color = ''; // 기존 색상으로 초기화
     authError.innerText = "";
-    if(authSubmitBtn) authSubmitBtn.disabled = false;
+    if (authSubmitBtn) authSubmitBtn.disabled = false;
 
     // 전역 변수에 사번/성명 저장 (결과 전송 시 사용)
     currentEmpId = empId;
