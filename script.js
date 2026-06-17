@@ -1,46 +1,87 @@
 // TODO: 배포하신 GAS Web App URL을 아래에 붙여넣어 주세요.
-const GAS_URL = "https://script.google.com/macros/s/AKfycbxqgBUoXg1eFxC9pV5pCRFPKY6ZIAx-YgTjGpJVGYxU8efjMlsCrF7zmhURhCY7Uqye2A/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxpngGIm3idP_fysrsP0I_PjpRvpzMaI5zgp0e_oIf6lB2FQAU7sIePa4itG_vBdaTJtA/exec";
 
 const questions = [
     {
-        category: "인식",
-        question: "새로운 AI 기술이나 사내 AI 툴이 도입되었을 때 나의 반응은?",
+        type: "single",
+        question: "평소 AI를 얼마나 자주 사용하시나요?",
         options: [
-            { text: "아직은 익숙한 기존 방식이 편하다.", score: 1 },
-            { text: "관심은 있지만, 누가 알려주기 전까지는 선뜻 써보지 않는다.", score: 2 },
-            { text: "간단한 기능 위주로 직접 테스트해보고 업무에 적용해본다.", score: 3 },
-            { text: "관련 매뉴얼이나 사례를 적극적으로 찾아보고 선도적으로 활용한다.", score: 4 }
+            { text: "AI에 대해 잘 모릅니다. (괜찮아요, 이제부터 알아가면 됩니다!)", score: 1 },
+            { text: "호기심에 간단한 기능 위주로 한두 번 사용해 본 적이 있습니다.", score: 2 },
+            { text: "업무나 일상에서 보조적 수단으로 가볍게 활용합니다.", score: 3 },
+            { text: "매일 AI와 함께 지내며, 업무와 일상에서 적극 활용 중입니다.", score: 4 }
         ]
     },
     {
-        category: "생산성",
-        question: "보고서 초안 작성, 이메일 번역, 회의록 요약 등에 AI를 얼마나 활용하나요?",
+        type: "multiple",
+        maxSelect: 2,
+        question: "업무나 일상에서 주로 어떤 AI Tool을 사용하시나요? (최대 2개)",
         options: [
-            { text: "거의 사용하지 않고 직접 작성한다.", score: 1 },
-            { text: "가끔 필요할 때 번역기나 기본적인 챗봇을 사용한다.", score: 2 },
-            { text: "주 2~3회 이상 문서 요약, 아이디어 도출 등을 위해 AI를 사용한다.", score: 3 },
-            { text: "대부분의 문서 작업 초안을 AI로 작성하고 다듬는 방식으로 효율을 극대화한다.", score: 4 }
+            { text: "ChatGPT" },
+            { text: "Gemini" },
+            { text: "Claude" },
+            { text: "DeepL" },
+            { text: "Notion AI" },
+            { text: "Canva, Midjourney 등 디자인 Tool" },
+            { text: "기타", hasDynamicInput: true },
+            { text: "아직 자주 사용하는 Tool이 없습니다.", isExclusive: true }
         ]
     },
     {
-        category: "직무(반도체)",
-        question: "데이터 분석, 코드 작성, 또는 기술 스펙 리서치 등에 AI를 어떻게 활용하나요?",
+        type: "multiple",
+        maxSelect: 2,
+        question: "AI를 활용해 본 업무가 있다면 알려주세요! (최대 2개)",
         options: [
-            { text: "전문 영역에는 AI 결과물을 신뢰할 수 없어 활용하지 않는다.", score: 1 },
-            { text: "간단한 함수 검색이나 구글링 대신 챗봇에게 물어보는 수준이다.", score: 2 },
-            { text: "복잡한 수식 생성, 데이터 전처리 코드 작성 등에 AI를 활용해 시간을 단축한다.", score: 3 },
-            { text: "오류 분석, 최적화 방안 도출 등 문제 해결의 파트너로서 AI와 깊게 상호작용한다.", score: 4 }
+            { text: "기본적인 챗봇 및 문서 번역" },
+            { text: "이메일, 보고서 등 초안 작성" },
+            { text: "아이디어 브레인스토밍 및 리서치 데이터 수집" },
+            { text: "엑셀 수식 작성 및 데이터 분석" },
+            { text: "디자인 이미지 생성" },
+            { text: "기타", hasDynamicInput: true },
+            { text: "아직 AI를 활용해 본 업무가 없습니다.", isExclusive: true }
         ]
     },
     {
-        category: "직무(반도체)",
-        question: "원하는 결과물을 얻기 위해 프롬프트(명령어)를 어떻게 작성하나요?",
+        type: "text",
+        question: "내 업무 중 \"이건 정말 AI의 도움을 받고 싶다!\"<br>생각이 드는 가장 귀찮은 업무는 무엇인가요?",
+        placeholder: "답변을 입력해주세요. (필수)"
+    },
+    {
+        type: "multiple",
+        maxSelect: 2,
+        question: "우리 회사에 공식적으로 도입되었으면 하는 AI Tool을 알려주세요. (최대 2개)",
         options: [
-            { text: "단답형이나 단순한 키워드 위주로 질문한다. (예: 반도체 수율이란?)", score: 1 },
-            { text: "문장형으로 묻고, 원하는 답변이 안 나오면 몇 번 정도 다시 묻는다.", score: 2 },
-            { text: "배경 상황과 역할, 원하는 출력 형식을 구체적으로 지정하여 질문한다.", score: 3 },
-            { text: "사내 데이터나 특정 예시를 제공하여 나만의 고도화된 프롬프트 템플릿을 보유하고 있다.", score: 4 }
+            { text: "Microsoft Copilot" },
+            { text: "ChatGPT" },
+            { text: "DeepL" },
+            { text: "Notion AI" },
+            { text: "기타", hasDynamicInput: true }
         ]
+    },
+    {
+        type: "single",
+        question: "향후 AI 활용법을 배우고, 동료들에게 노하우를 공유하는<br>'사내 AI 강사 프로그램'을 진행한다면 참여할 의향이 있으신가요?",
+        options: [
+            { text: "기회가 된다면 적극적으로 참여하겠습니다!" },
+            { text: "관심이 있습니다. 일단 먼저 충분히 배워보고 결정하고 싶습니다." },
+            { text: "아직은 다른 분들이 먼저 하는걸 지켜보고 싶습니다." }
+        ]
+    },
+    {
+        type: "single",
+        question: "AI를 잘 활용하기 위해, 당장 듣고 싶은 교육은 무엇인가요?",
+        options: [
+            { text: "AI에게 똑똑하게 질문하는 법 (프롬프트 활용)" },
+            { text: "내 업무에 바로 써먹는 맞춤형 AI 툴 활용법" },
+            { text: "동료들의 실무 적용 사례 공유회" },
+            { text: "기타", hasInput: true }
+        ]
+    },
+    {
+        type: "text",
+        question: "AI 도입 및 교육에 있어, 회사가 어떤 점을 준비하면 좋을까요?<br>작은 아이디어나 건의사항이 있다면 자유롭게 알려주세요!",
+        placeholder: "답변을 자유롭게 적어주세요. (선택)",
+        optional: true
     }
 ];
 
@@ -48,18 +89,16 @@ let currentQuestionIndex = 0;
 let totalScore = 0;
 let currentEmpId = '';
 let currentEmpName = '';
-let userSelections = [];
-let shuffledQuestions = [];
 
-// 주관식 답변용 변수
-let subjCurrentTool = '';
-let subjWantTool = '';
+// userSelections[qIdx] = single ? [idx] : multiple ? [idx1, idx2] : text ? "string"
+let userSelections = [];
+// userCustomInputs[qIdx][optIdx] = ["val1", "val2"...]
+let userCustomInputs = {};
 
 // DOM Elements
 const introView = document.getElementById('intro-view');
 const authView = document.getElementById('auth-view');
 const quizView = document.getElementById('quiz-view');
-const subjectiveView = document.getElementById('subjective-view');
 const loadingView = document.getElementById('loading-view');
 const resultView = document.getElementById('result-view');
 
@@ -76,18 +115,12 @@ const progressBar = document.getElementById('progress-bar');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 
-const subjectiveSubmitBtn = document.getElementById('subjective-submit-btn');
-const subjectivePrevBtn = document.getElementById('subjective-prev-btn');
-
-
 const restartBtn = document.getElementById('restart-btn');
 
 // Event Listeners
 startBtn.addEventListener('click', showAuth);
 authSubmitBtn.addEventListener('click', handleAuthSubmit);
-subjectiveSubmitBtn.addEventListener('click', handleSubjectiveSubmit);
-subjectivePrevBtn.addEventListener('click', handleSubjectivePrevClick);
-restartBtn.addEventListener('click', resetQuiz);
+restartBtn.addEventListener('click', closeWindow);
 prevBtn.addEventListener('click', handlePrevClick);
 nextBtn.addEventListener('click', handleNextClick);
 
@@ -112,13 +145,11 @@ async function handleAuthSubmit() {
         return;
     }
 
-    // 서버로 사번 중복 확인 요청
-    authError.style.color = '#1e88e5'; // 로딩 안내 메시지 (파란색)
+    authError.style.color = '#1e88e5';
     authError.innerText = "참여 이력을 확인 중입니다...";
 
-    // 버튼 비활성화 방어
-    const authSubmitBtn = document.querySelector('#auth-view .btn');
-    if (authSubmitBtn) authSubmitBtn.disabled = true;
+    const submitBtn = document.querySelector('#auth-view .btn');
+    if (submitBtn) submitBtn.disabled = true;
 
     try {
         if (GAS_URL && GAS_URL !== "YOUR_GAS_URL_HERE") {
@@ -127,31 +158,20 @@ async function handleAuthSubmit() {
             const resultData = await response.json();
 
             if (resultData.exists) {
-                authError.style.color = '#d32f2f'; // 에러 색상 (빨간색) 복구
+                authError.style.color = '#d32f2f';
                 authError.innerText = "해당 사번은 이미 설문에 참여하였습니다.";
-                if (authSubmitBtn) authSubmitBtn.disabled = false;
+                if (submitBtn) submitBtn.disabled = false;
                 return;
             }
         }
     } catch (error) {
         console.error("중복 확인 중 에러 발생:", error);
-        // CORS 문제나 네트워크 에러 시 사용자가 영원히 갇히는 것을 방지하기 위해 
-        // 실전에서는 아래를 풀고 에러를 띄우거나, 무시하고 진행하게 설계할 수 있습니다.
-        // 현재는 무시하고 진행하도록 하되, 엄격하게 막으려면 주석을 해제하세요.
-        /*
-        authError.style.color = '#d32f2f';
-        authError.innerText = "네트워크 오류로 확인에 실패했습니다. 다시 시도해주세요.";
-        if(authSubmitBtn) authSubmitBtn.disabled = false;
-        return;
-        */
     }
 
-    // 검증 성공 후 진행
-    authError.style.color = ''; // 기존 색상으로 초기화
+    authError.style.color = '';
     authError.innerText = "";
-    if (authSubmitBtn) authSubmitBtn.disabled = false;
+    if (submitBtn) submitBtn.disabled = false;
 
-    // 전역 변수에 사번/성명 저장 (결과 전송 시 사용)
     currentEmpId = empId;
     currentEmpName = empName;
 
@@ -160,77 +180,315 @@ async function handleAuthSubmit() {
 
 function startQuiz() {
     currentQuestionIndex = 0;
-    userSelections = new Array(questions.length).fill(null);
-
-    // 퀴즈 시작 시 1회만 각 문항의 보기 순서를 섞음
-    shuffledQuestions = questions.map(q => {
-        return {
-            ...q,
-            options: [...q.options].sort(() => Math.random() - 0.5)
-        };
+    userSelections = new Array(questions.length).fill(null).map((_, i) => {
+        return questions[i].type === 'text' ? "" : [];
     });
+    userCustomInputs = {};
 
     switchView(quizView);
     renderQuestion();
 }
 
 function renderQuestion() {
-    const q = shuffledQuestions[currentQuestionIndex];
-    questionNumber.innerText = `Q${currentQuestionIndex + 1}.`;
-    questionText.innerText = q.question;
+    const q = questions[currentQuestionIndex];
 
-    // Update Progress
-    const progress = ((currentQuestionIndex) / shuffledQuestions.length) * 100;
+    const partTitleEl = document.getElementById('part-title');
+    if (partTitleEl) {
+        partTitleEl.innerText = q.part ? q.part : '';
+        partTitleEl.style.display = q.part ? 'block' : 'none';
+    }
+
+    questionNumber.innerHTML = `Q${currentQuestionIndex + 1}.`;
+    let qText = q.question;
+    if (qText.includes('(최대 2개)')) {
+        qText = qText.replace('(최대 2개)', '<span class="max-select-text">(최대 2개)</span>');
+    }
+    questionText.innerHTML = qText;
+
+    const progress = ((currentQuestionIndex) / questions.length) * 100;
     progressBar.style.width = `${progress}%`;
 
-    // Render Options
     optionsContainer.innerHTML = '';
+    optionsContainer.className = `options-container ${q.type}-choice`;
 
-    q.options.forEach(option => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        if (userSelections[currentQuestionIndex] === option.score) {
-            btn.classList.add('selected');
-        }
-        btn.innerText = option.text;
-        btn.onclick = () => selectOption(option.score, btn);
-        optionsContainer.appendChild(btn);
-    });
-
-    // Update Nav Buttons
-    prevBtn.style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
-
-    if (userSelections[currentQuestionIndex] === null) {
-        nextBtn.disabled = true;
+    if (q.type === 'text') {
+        renderTextQuestion(q);
     } else {
-        nextBtn.disabled = false;
+        renderOptionsQuestion(q);
     }
+
+    prevBtn.style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
+    checkNextButtonStatus();
 }
 
-function selectOption(score, selectedBtn) {
-    userSelections[currentQuestionIndex] = score;
+function renderTextQuestion(q) {
+    const textarea = document.createElement('textarea');
+    textarea.className = 'text-response-input';
+    textarea.placeholder = q.placeholder || "답변을 입력해 주세요.";
+    textarea.value = userSelections[currentQuestionIndex] || "";
 
-    // Remove 'selected' from all buttons
-    const buttons = optionsContainer.querySelectorAll('.option-btn');
-    buttons.forEach(btn => btn.classList.remove('selected'));
+    textarea.addEventListener('input', (e) => {
+        userSelections[currentQuestionIndex] = e.target.value;
+        checkNextButtonStatus();
+    });
 
-    // Add 'selected' to clicked button
-    selectedBtn.classList.add('selected');
+    optionsContainer.appendChild(textarea);
+}
 
-    // Enable Next button
-    nextBtn.disabled = false;
+function renderOptionsQuestion(q) {
+    const currentSels = userSelections[currentQuestionIndex] || [];
+    if (!userCustomInputs[currentQuestionIndex]) {
+        userCustomInputs[currentQuestionIndex] = {};
+    }
+    const qCustomInputs = userCustomInputs[currentQuestionIndex];
+
+    q.options.forEach((option, idx) => {
+        const btn = document.createElement('div');
+        btn.className = 'option-btn';
+        if (currentSels.includes(idx)) {
+            btn.classList.add('selected');
+        }
+
+        let innerHtml = `<div class="option-content">`;
+        if (q.type === 'multiple') {
+            innerHtml += `<div class="checkbox-box"></div>`;
+        }
+        innerHtml += `<span class="option-text">${option.text}</span></div>`;
+
+        // Single Input or Dynamic Input Container
+        const inputContainerId = `input-container-${currentQuestionIndex}-${idx}`;
+        const inputDisplay = btn.classList.contains('selected') ? 'block' : 'none';
+
+        if (option.hasInput || option.hasDynamicInput) {
+            innerHtml += `<div id="${inputContainerId}" class="dynamic-inputs-wrapper" style="display: ${inputDisplay}; margin-top:10px;"></div>`;
+        }
+
+        btn.innerHTML = innerHtml;
+
+        btn.onclick = (e) => {
+            if (e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'button') return;
+            selectOption(idx, btn, q);
+        };
+
+        optionsContainer.appendChild(btn);
+
+        // Render inputs if needed
+        if (option.hasInput || option.hasDynamicInput) {
+            const wrapper = document.getElementById(inputContainerId);
+            const savedVals = qCustomInputs[idx] || [""];
+            if (savedVals.length === 0) savedVals.push("");
+
+            savedVals.forEach((val, valIdx) => {
+                wrapper.appendChild(createInputRow(q, idx, valIdx, val, option.hasDynamicInput));
+            });
+        }
+    });
+}
+
+function createInputRow(q, optIdx, valIdx, value, isDynamic) {
+    const row = document.createElement('div');
+    row.className = 'dynamic-input-row';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'other-input';
+    input.placeholder = "내용을 입력해 주세요";
+    input.value = value;
+    input.onclick = (e) => e.stopPropagation();
+
+    input.addEventListener('input', (e) => {
+        if (!userCustomInputs[currentQuestionIndex]) userCustomInputs[currentQuestionIndex] = {};
+        if (!userCustomInputs[currentQuestionIndex][optIdx]) userCustomInputs[currentQuestionIndex][optIdx] = [""];
+        userCustomInputs[currentQuestionIndex][optIdx][valIdx] = e.target.value;
+        checkNextButtonStatus();
+    });
+
+    row.appendChild(input);
+
+    if (isDynamic) {
+        // Add or Remove Button
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = (e) => {
+            e.stopPropagation();
+            const arr = userCustomInputs[currentQuestionIndex][optIdx];
+            if (valIdx === arr.length - 1) {
+                // Add new row
+                const currentSels = userSelections[currentQuestionIndex] || [];
+                if (q.maxSelect) {
+                    let currentTotal = 0;
+                    currentSels.forEach(idx => {
+                        const option = q.options[idx];
+                        if (option.hasDynamicInput) {
+                            const dynArr = (userCustomInputs[currentQuestionIndex] || {})[idx] || [""];
+                            currentTotal += dynArr.length;
+                        } else {
+                            currentTotal += 1;
+                        }
+                    });
+                    if (currentTotal + 1 > q.maxSelect) {
+                        alert(`최대 ${q.maxSelect}개까지만 선택할 수 있습니다.`);
+                        return;
+                    }
+                }
+                arr.push("");
+            } else {
+                // Remove this row
+                arr.splice(valIdx, 1);
+            }
+            // Re-render this specific option's inputs
+            const wrapper = document.getElementById(`input-container-${currentQuestionIndex}-${optIdx}`);
+            wrapper.innerHTML = '';
+            arr.forEach((v, i) => wrapper.appendChild(createInputRow(q, optIdx, i, v, isDynamic)));
+            checkNextButtonStatus();
+        };
+
+        // If it's the last row, show '+', otherwise show '-'
+        const qCustomInputs = userCustomInputs[currentQuestionIndex][optIdx] || [""];
+        if (valIdx === qCustomInputs.length - 1) {
+            btn.className = 'add-input-btn';
+            btn.innerText = '+';
+        } else {
+            btn.className = 'remove-input-btn';
+            btn.innerText = '−';
+        }
+        row.appendChild(btn);
+    }
+
+    return row;
+}
+
+function checkNextButtonStatus() {
+    const q = questions[currentQuestionIndex];
+
+    if (q.type === 'text') {
+        if (q.optional) {
+            nextBtn.disabled = false;
+        } else {
+            const textVal = (userSelections[currentQuestionIndex] || "").trim();
+            nextBtn.disabled = textVal.length === 0;
+        }
+        return;
+    }
+
+    const currentSels = userSelections[currentQuestionIndex] || [];
+    if (currentSels.length === 0) {
+        nextBtn.disabled = true;
+        return;
+    }
+
+    let valid = true;
+    currentSels.forEach(idx => {
+        const opt = q.options[idx];
+        if (opt.hasInput || opt.hasDynamicInput) {
+            const vals = (userCustomInputs[currentQuestionIndex] || {})[idx] || [];
+            // At least one input must have text
+            const hasText = vals.some(v => v.trim() !== '');
+            if (!hasText) valid = false;
+        }
+    });
+
+    nextBtn.disabled = !valid;
+}
+
+function selectOption(optionIndex, btn, q) {
+    let currentSels = userSelections[currentQuestionIndex] || [];
+    const opt = q.options[optionIndex];
+
+    if (q.type === 'single') {
+        currentSels = [optionIndex];
+        const buttons = optionsContainer.querySelectorAll('.option-btn');
+        buttons.forEach(b => {
+            b.classList.remove('selected');
+            const wrap = b.querySelector('.dynamic-inputs-wrapper');
+            if (wrap) wrap.style.display = 'none';
+        });
+        btn.classList.add('selected');
+        const activeWrap = btn.querySelector('.dynamic-inputs-wrapper');
+        if (activeWrap) {
+            activeWrap.style.display = 'block';
+            const input = activeWrap.querySelector('input');
+            if (input) input.focus();
+        }
+    } else if (q.type === 'multiple') {
+        if (currentSels.includes(optionIndex)) {
+            // Deselect
+            currentSels = currentSels.filter(idx => idx !== optionIndex);
+            btn.classList.remove('selected');
+            const wrap = btn.querySelector('.dynamic-inputs-wrapper');
+            if (wrap) wrap.style.display = 'none';
+        } else {
+            // Select
+            if (opt.isExclusive) {
+                currentSels = [optionIndex];
+                const buttons = optionsContainer.querySelectorAll('.option-btn');
+                buttons.forEach(b => {
+                    b.classList.remove('selected');
+                    const wrap = b.querySelector('.dynamic-inputs-wrapper');
+                    if (wrap) wrap.style.display = 'none';
+                });
+            } else {
+                const exclusiveIdx = q.options.findIndex(o => o.isExclusive);
+                if (exclusiveIdx !== -1 && currentSels.includes(exclusiveIdx)) {
+                    currentSels = currentSels.filter(idx => idx !== exclusiveIdx);
+                    const excBtn = optionsContainer.children[exclusiveIdx];
+                    excBtn.classList.remove('selected');
+                    const wrap = excBtn.querySelector('.dynamic-inputs-wrapper');
+                    if (wrap) wrap.style.display = 'none';
+                }
+
+                if (q.maxSelect) {
+                    let currentTotal = 0;
+                    currentSels.forEach(idx => {
+                        const option = q.options[idx];
+                        if (option.hasDynamicInput) {
+                            const dynArr = (userCustomInputs[currentQuestionIndex] || {})[idx] || [""];
+                            currentTotal += dynArr.length;
+                        } else {
+                            currentTotal += 1;
+                        }
+                    });
+                    if (currentTotal + 1 > q.maxSelect) {
+                        alert(`최대 ${q.maxSelect}개까지만 선택할 수 있습니다.`);
+                        return;
+                    }
+                }
+            }
+            currentSels.push(optionIndex);
+            btn.classList.add('selected');
+            const activeWrap = btn.querySelector('.dynamic-inputs-wrapper');
+            if (activeWrap) {
+                activeWrap.style.display = 'block';
+                const input = activeWrap.querySelector('input');
+                if (input) input.focus();
+            }
+        }
+    }
+
+    userSelections[currentQuestionIndex] = currentSels;
+    checkNextButtonStatus();
 }
 
 function handleNextClick() {
-    if (currentQuestionIndex < shuffledQuestions.length - 1) {
+    if (currentQuestionIndex < questions.length - 1) {
         currentQuestionIndex++;
         renderQuestion();
     } else {
-        // 모든 문항의 점수 합산
-        totalScore = userSelections.reduce((sum, score) => sum + score, 0);
+        // 합산 스코어 계산 (Q1 같이 score 속성이 있는 것만)
+        totalScore = 0;
+        userSelections.forEach((sels, qIdx) => {
+            const q = questions[qIdx];
+            if (q.type !== 'text') {
+                sels.forEach(optIdx => {
+                    const opt = q.options[optIdx];
+                    if (opt && opt.score) totalScore += opt.score;
+                });
+            }
+        });
+
         progressBar.style.width = `100%`;
         setTimeout(() => {
-            switchView(subjectiveView);
+            showLoading(); // 바로 로딩(전송)으로 넘어감
         }, 300);
     }
 }
@@ -242,75 +500,54 @@ function handlePrevClick() {
     }
 }
 
-function handleSubjectivePrevClick() {
-    // 마지막 문항으로 되돌아가기
-    currentQuestionIndex = shuffledQuestions.length - 1;
-    switchView(quizView);
-    renderQuestion();
-}
-
-function handleSubjectiveSubmit() {
-    const currentInputs = document.querySelectorAll('.current-tool-input');
-    const wantInputs = document.querySelectorAll('.want-tool-input');
-
-    const currentValues = Array.from(currentInputs).map(i => i.value.trim()).filter(v => v !== '');
-    const wantValues = Array.from(wantInputs).map(i => i.value.trim()).filter(v => v !== '');
-
-    if (currentValues.length === 0 || wantValues.length === 0) {
-        alert("항목별로 최소 하나 이상의 AI Tool을 작성해 주세요.");
-        return;
-    }
-
-    // 배열을 ' | ' 기호로 구분하여 취합 시 파싱이 쉽도록 처리
-    subjCurrentTool = currentValues.join(' | ');
-    subjWantTool = wantValues.join(' | ');
-
-    showLoading();
-}
-
-function addInputRow(containerId, inputClass) {
-    const container = document.getElementById(containerId);
-
-    const row = document.createElement('div');
-    row.className = 'dynamic-input-row';
-
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.className = `dynamic-input ${inputClass}`;
-    input.placeholder = '추가 입력';
-
-    const removeBtn = document.createElement('button');
-    removeBtn.type = 'button';
-    removeBtn.className = 'remove-input-btn';
-    removeBtn.innerText = '−'; // minus sign
-    removeBtn.onclick = () => {
-        container.removeChild(row);
-    };
-
-    row.appendChild(input);
-    row.appendChild(removeBtn);
-    container.appendChild(row);
-}
-
 function showLoading() {
     switchView(loadingView);
 
-    // 사용자가 선택한 문항의 텍스트 추출 (결과 취합용)
-    const q1Ans = shuffledQuestions[0] ? shuffledQuestions[0].options.find(opt => opt.score === userSelections[0])?.text : '';
-    const q2Ans = shuffledQuestions[1] ? shuffledQuestions[1].options.find(opt => opt.score === userSelections[1])?.text : '';
-    const q3Ans = shuffledQuestions[2] ? shuffledQuestions[2].options.find(opt => opt.score === userSelections[2])?.text : '';
-    const q4Ans = shuffledQuestions[3] ? shuffledQuestions[3].options.find(opt => opt.score === userSelections[3])?.text : '';
+    // 각 문항의 답변을 배열로 취합 (복수선택 분리용)
+    const answers = questions.map((q, qIdx) => {
+        if (q.type === 'text') {
+            return [userSelections[qIdx] || ''];
+        } else {
+            const sels = userSelections[qIdx] || [];
+            let flattenedVals = [];
+            sels.forEach(optIdx => {
+                const opt = q.options[optIdx];
+                // Q1의 경우 값 그대로(텍스트)가 아닌 1~4 숫자(score)로 치환하여 반환
+                if (qIdx === 0 && opt.score) {
+                    flattenedVals.push(opt.score);
+                } else if (opt.hasInput || opt.hasDynamicInput) {
+                    const customVals = ((userCustomInputs[qIdx] || {})[optIdx] || []).map(v => v.trim()).filter(v => v !== '');
+                    if (customVals.length > 0) {
+                        customVals.forEach(cv => {
+                            flattenedVals.push(opt.text + " : " + cv);
+                        });
+                    } else {
+                        flattenedVals.push(opt.text);
+                    }
+                } else {
+                    flattenedVals.push(opt.text);
+                }
+            });
+            return flattenedVals; // 각 입력값을 별도 배열 아이템으로 반환
+        }
+    });
 
+    // 최대 2개까지 선택 가능한 문항(Q2, Q3, Q5)은 분리하여 전송
     const payload = {
         empId: currentEmpId,
         empName: currentEmpName,
         score: totalScore,
-        q1: q1Ans || '',
-        q2: q2Ans || '',
-        q3: q3Ans || '',
-        q4: q4Ans || '',
-        currentTool: subjCurrentTool,
-        wantTool: subjWantTool
+        q1: answers[0][0] || '',
+        q2_1: answers[1][0] || '',
+        q2_2: answers[1][1] || '',
+        q3_1: answers[2][0] || '',
+        q3_2: answers[2][1] || '',
+        q4: answers[3][0] || '',
+        q5_1: answers[4][0] || '',
+        q5_2: answers[4][1] || '',
+        q6: answers[5][0] || '',
+        q7: answers[6][0] || '',
+        q8: answers[7][0] || ''
     };
 
     // 1.5초 기본 로딩 시간 보장 및 fetch 비동기 처리
@@ -340,7 +577,10 @@ function showResult() {
     switchView(resultView);
 }
 
-function resetQuiz() {
-    // 단 1회 참여 가능하므로, 퀴즈 재시작 대신 처음 화면으로 새로고침
-    location.reload();
+function closeWindow() {
+    window.close();
+    // 브라우저 보안 정책으로 인해 window.close()가 작동하지 않을 경우 안내
+    setTimeout(() => {
+        alert("현재 탭을 닫아주세요.");
+    }, 100);
 }
