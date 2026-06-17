@@ -1,5 +1,5 @@
 // TODO: 배포하신 GAS Web App URL을 아래에 붙여넣어 주세요.
-const GAS_URL = "https://script.google.com/macros/s/AKfycbxpngGIm3idP_fysrsP0I_PjpRvpzMaI5zgp0e_oIf6lB2FQAU7sIePa4itG_vBdaTJtA/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwRjNU8Uq3O0BNlcvcD0cB_6IpswWs3TEUY6CPwBF7va3dkjWP4opXQSfaZpd96iFcgOg/exec";
 
 const questions = [
     {
@@ -160,7 +160,7 @@ async function handleAuthSubmit() {
             // 사번/성명 검증 실패
             if (resultData.valid === false) {
                 authError.style.color = '#d32f2f';
-                authError.innerText = resultData.error || "사번과 성명이 일치하지 않거나 등록되지 않았습니다.";
+                authError.innerText = resultData.error || "사번과 성명이 일치하지 않습니다.";
                 if (submitBtn) submitBtn.disabled = false;
                 return;
             }
@@ -524,11 +524,11 @@ function showLoading() {
                 // Q1의 경우 값 그대로(텍스트)가 아닌 1~4 숫자(score)로 치환하여 반환
                 if (qIdx === 0 && opt.score) {
                     flattenedVals.push(opt.score);
-                } 
+                }
                 // Q6의 경우 텍스트 대신 1~3 숫자 값으로 치환하여 반환
                 else if (qIdx === 5) {
                     flattenedVals.push(optIdx + 1);
-                } 
+                }
                 else if (opt.hasInput || opt.hasDynamicInput) {
                     const customVals = ((userCustomInputs[qIdx] || {})[optIdx] || []).map(v => v.trim()).filter(v => v !== '');
                     if (customVals.length > 0) {
