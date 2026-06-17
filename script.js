@@ -153,10 +153,19 @@ async function handleAuthSubmit() {
 
     try {
         if (GAS_URL && GAS_URL !== "YOUR_GAS_URL_HERE") {
-            const checkUrl = `${GAS_URL}?action=check&empId=${encodeURIComponent(empId)}`;
+            const checkUrl = `${GAS_URL}?action=check&empId=${encodeURIComponent(empId)}&empName=${encodeURIComponent(empName)}`;
             const response = await fetch(checkUrl);
             const resultData = await response.json();
 
+            // 사번/성명 검증 실패
+            if (resultData.valid === false) {
+                authError.style.color = '#d32f2f';
+                authError.innerText = resultData.error || "사번과 성명이 일치하지 않거나 등록되지 않았습니다.";
+                if (submitBtn) submitBtn.disabled = false;
+                return;
+            }
+
+            // 중복 참여 검증
             if (resultData.exists) {
                 authError.style.color = '#d32f2f';
                 authError.innerText = "해당 사번은 이미 설문에 참여하였습니다.";
