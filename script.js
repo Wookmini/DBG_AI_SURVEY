@@ -515,7 +515,12 @@ function showLoading() {
                 // Q1의 경우 값 그대로(텍스트)가 아닌 1~4 숫자(score)로 치환하여 반환
                 if (qIdx === 0 && opt.score) {
                     flattenedVals.push(opt.score);
-                } else if (opt.hasInput || opt.hasDynamicInput) {
+                } 
+                // Q6의 경우 텍스트 대신 1~3 숫자 값으로 치환하여 반환
+                else if (qIdx === 5) {
+                    flattenedVals.push(optIdx + 1);
+                } 
+                else if (opt.hasInput || opt.hasDynamicInput) {
                     const customVals = ((userCustomInputs[qIdx] || {})[optIdx] || []).map(v => v.trim()).filter(v => v !== '');
                     if (customVals.length > 0) {
                         customVals.forEach(cv => {
