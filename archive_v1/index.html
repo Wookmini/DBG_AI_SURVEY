@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DB 글로벌칩 AI Survey</title>
+    <title>DB 글로벌칩 AI 협업방식 자가진단</title>
     <link rel="stylesheet" href="styles.css">
     <!-- 폰트 적용 (Pretendard) -->
-    <link rel="stylesheet" as="style" crossorigin
-        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
 </head>
-
 <body>
     <!-- 배경 장식 (글래스모피즘용) -->
     <div class="bg-shape shape1"></div>
@@ -21,9 +18,9 @@
         <section id="intro-view" class="view active full-screen-intro">
             <div class="intro-content">
                 <img src="logo.png" alt="DB Global Chip" class="logo-img">
-                <h1 class="main-title">DB 글로벌칩<br><span class="gradient-text">AI Survey</span></h1>
-                <p class="sub-title">임직원 여러분의 AI 활용 현황을 파악하기 위한 설문조사입니다.</p>
-                <button id="start-btn" class="primary-btn pulse-btn">설문 시작하기</button>
+                <h1 class="main-title">당신은 <span class="gradient-text">AI</span>와<br><span class="gradient-text-red">함께</span> 일하고 있나요?</h1>
+                <p class="sub-title">나의 AI 활용 수준을 점검하고, 업무 효율을 극대화할 새로운 방법을 찾아보세요.</p>
+                <button id="start-btn" class="primary-btn pulse-btn">진단 시작하기</button>
             </div>
             <div class="intro-image">
                 <!-- 추상적인 AI 느낌의 그래픽 또는 DB 컬러 패턴 -->
@@ -36,7 +33,7 @@
             <div class="auth-card">
                 <img src="logo.png" alt="DB Global Chip" class="logo-small-img">
                 <h2>기본 정보 입력</h2>
-                <p>사번과 성명을 입력해 주세요.</p>
+                <p>사번과 성명을 입력해 주세요. (1회만 참여 가능합니다!)</p>
                 <div class="input-group">
                     <label for="emp-id">사번</label>
                     <input type="text" id="emp-id" placeholder="사번을 입력하세요" required>
@@ -45,7 +42,7 @@
                     <label for="emp-name">성명</label>
                     <input type="text" id="emp-name" placeholder="이름을 입력하세요" required>
                 </div>
-                <button id="auth-submit-btn" class="primary-btn">설문 시작하기</button>
+                <button id="auth-submit-btn" class="primary-btn">진단 시작하기</button>
                 <div id="auth-error" class="auth-error"></div>
             </div>
         </section>
@@ -82,8 +79,7 @@
                     <div id="current-tool-container" class="dynamic-input-container">
                         <div class="dynamic-input-row">
                             <input type="text" class="dynamic-input current-tool-input" placeholder="예: ChatGPT">
-                            <button type="button" class="add-input-btn"
-                                onclick="addInputRow('current-tool-container', 'current-tool-input')">+</button>
+                            <button type="button" class="add-input-btn" onclick="addInputRow('current-tool-container', 'current-tool-input')">+</button>
                         </div>
                     </div>
                 </div>
@@ -92,14 +88,13 @@
                     <div id="want-tool-container" class="dynamic-input-container">
                         <div class="dynamic-input-row">
                             <input type="text" class="dynamic-input want-tool-input" placeholder="예: Midjourney">
-                            <button type="button" class="add-input-btn"
-                                onclick="addInputRow('want-tool-container', 'want-tool-input')">+</button>
+                            <button type="button" class="add-input-btn" onclick="addInputRow('want-tool-container', 'want-tool-input')">+</button>
                         </div>
                     </div>
                 </div>
                 <div class="quiz-nav-buttons">
                     <button id="subjective-prev-btn" class="secondary-btn">이전</button>
-                    <button id="subjective-submit-btn" class="primary-btn">설문 제출하기</button>
+                    <button id="subjective-submit-btn" class="primary-btn">진단 결과 확인하기</button>
                 </div>
             </div>
         </section>
@@ -108,8 +103,8 @@
         <section id="loading-view" class="view loading-layout">
             <div class="loading-card">
                 <div class="spinner"></div>
-                <h2>제출 중...</h2>
-                <p>설문 결과를 전송하고 있습니다.</p>
+                <h2>결과 분석 중...</h2>
+                <p>DB 글로벌칩 맞춤형 AI 협업 페르소나를 도출하고 있습니다.</p>
             </div>
         </section>
 
@@ -118,12 +113,21 @@
             <div class="result-card">
                 <img src="logo.png" alt="DB Global Chip" class="logo-small-img">
                 <div class="result-header">
-                    <h3>설문 제출 완료</h3>
-                    <h1 id="result-title">참여해 주셔서 감사합니다</h1>
+                    <h3>나의 AI 페르소나는?</h3>
+                    <h1 id="result-title">AI 탐험가</h1>
+                    <div class="result-score-wrap">
+                        <div class="result-score">총점: <span id="result-score-val">0</span>점</div>
+                    </div>
                 </div>
                 <div class="result-body">
                     <div class="result-desc-card">
-                        <p id="result-desc">소중한 의견은 DB 글로벌칩의 더 나은 AI 업무 환경 구축을 위해 활용될 예정입니다.</p>
+                        <p id="result-desc">결과 상세 설명</p>
+                    </div>
+                    <div class="result-recommendation">
+                        <h4>💡 DB 글로벌칩 업무 적용 팁</h4>
+                        <ul id="result-tips">
+                            <!-- 추천 팁 동적 생성 -->
+                        </ul>
                     </div>
                 </div>
                 <div class="result-footer">
@@ -134,5 +138,4 @@
     </div>
     <script src="script.js"></script>
 </body>
-
 </html>
