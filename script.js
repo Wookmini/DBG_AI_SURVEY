@@ -1,5 +1,5 @@
 // TODO: 배포하신 GAS Web App URL을 아래에 붙여넣어 주세요.
-const GAS_URL = "https://script.google.com/macros/s/AKfycbwRjNU8Uq3O0BNlcvcD0cB_6IpswWs3TEUY6CPwBF7va3dkjWP4opXQSfaZpd96iFcgOg/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbz5QLtkQB-EmKr56qq4aDAEootMZiSELTRhYWHKpbSOhDaVE7dV2gLDzHQmn991dRvrjw/exec";
 
 const questions = [
     {
